@@ -12,7 +12,12 @@ namespace DevScreen
                                                     " - - - - H a c k i n g - - - ",
                                                     "downloading ALL the pr0ns",
                                                     "<inserting> highly important //looking text",
-                                                    "moar code here!!!"};
+                                                    "moar code here!!!",
+                                                    "<< Summoning Daemons >>",
+                                                    "applying arcane warding",
+                                                    "Glitching out %$-!",
+                                                    "_loading_Stuff.dll_",
+                                                    "@@ more coffee required",};
 
         public string GetText()
         {
