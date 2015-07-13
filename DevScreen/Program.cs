@@ -16,7 +16,7 @@ namespace DevScreen
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 bob = new Form1(new RandomTextGetter());
+            ImportantDisplayForm bob = new ImportantDisplayForm(new RandomTextGetter());
             Application.Run(bob);
 
             bob.Go();

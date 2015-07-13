@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace DevScreen
 {
-    public partial class Form1 : Form
+    public partial class ImportantDisplayForm : Form
     {
         private bool run;
         private ITextGetter textGetter;
 
-        public Form1(ITextGetter textGetter)
+        public ImportantDisplayForm(ITextGetter textGetter)
         {
             InitializeComponent();
 
@@ -27,24 +27,24 @@ namespace DevScreen
             newthread.Start();
         }
 
-        public void UpdateTextbox(string input)
+        public void UpdateTextbox(TextBox box, string input)
         {
-            if (!textBox1.IsDisposed)
+            if (!box.IsDisposed)
             {
-                textBox1.Invoke(new MethodInvoker(delegate { textBox1.AppendText(input); }));
+                box.Invoke(new MethodInvoker(() => box.AppendText(input)));
             }
         }
 
-        public void UpdateProgressbar(int amount)
+        public void UpdateProgressbar(ProgressBar bar, int amount)
         {
 
-            if (!progressBar1.IsDisposed && progressBar1.Value >= progressBar1.Maximum)
+            if (!bar.IsDisposed && bar.Value >= bar.Maximum)
             {
-                progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = 0; }));
+                bar.Invoke(new MethodInvoker(() => bar.Value = 0));
             }
-            if (!progressBar1.IsDisposed)
+            if (!bar.IsDisposed)
             {
-                progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Increment(amount); }));
+                bar.Invoke(new MethodInvoker(() => bar.Increment(amount)));
             }
         }
 
@@ -52,8 +52,8 @@ namespace DevScreen
         {
             while (run)
             {
-                UpdateProgressbar(10);
-                UpdateTextbox(textGetter.GetText() + Environment.NewLine);
+                UpdateProgressbar(bottomProgressBar, 10);
+                UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
 
                 if (!this.IsDisposed)
                 {
@@ -66,6 +66,7 @@ namespace DevScreen
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             run = false;
+            Thread.Sleep(500);
         }
     }
 }
