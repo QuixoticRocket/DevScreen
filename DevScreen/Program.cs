@@ -18,8 +18,6 @@ namespace DevScreen
             Application.SetCompatibleTextRenderingDefault(false);
             ImportantDisplayForm bob = new ImportantDisplayForm(new RandomTextGetter());
             Application.Run(bob);
-
-            bob.Go();
         }
     }
 }

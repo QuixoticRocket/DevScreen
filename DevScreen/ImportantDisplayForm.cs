@@ -15,18 +15,36 @@ namespace DevScreen
     {
         private bool run;
         private ITextGetter textGetter;
+        private Random random;
+
+        
+        public delegate void ProgressBarCompleteDelegate(ProgressBar bar);
+
+        /// <summary>
+        /// Fires when the progressbar completes
+        /// </summary>
+        public event ProgressBarCompleteDelegate ProgressbarComplete;
 
         public ImportantDisplayForm(ITextGetter textGetter)
         {
             InitializeComponent();
 
+            ProgressbarComplete += On_ProgressBarComplete;
+
+            random = new Random(DateTime.Now.Millisecond + DateTime.Now.Second);
+
             this.textGetter = textGetter;
             run = true;
 
-            Thread newthread = new Thread(new ThreadStart(Go));
+            Thread newthread = new Thread(new ThreadStart(RunUpdateLoop));
             newthread.Start();
         }
 
+        /// <summary>
+        /// Thread Safe method for appending text to a textbox
+        /// </summary>
+        /// <param name="box">The textbox to invoke</param>
+        /// <param name="input">The text to append</param>
         public void UpdateTextbox(TextBox box, string input)
         {
             if (!box.IsDisposed)
@@ -35,12 +53,20 @@ namespace DevScreen
             }
         }
 
+        /// <summary>
+        /// Thread Safe method for incrementing the progress bar by an amount
+        /// </summary>
+        /// <param name="bar">The progressbar to invoke</param>
+        /// <param name="amount">the amount to increment by</param>
         public void UpdateProgressbar(ProgressBar bar, int amount)
         {
 
             if (!bar.IsDisposed && bar.Value >= bar.Maximum)
             {
-                bar.Invoke(new MethodInvoker(() => bar.Value = 0));
+                if(ProgressbarComplete != null)
+                {
+                    ProgressbarComplete(bar);
+                }
             }
             if (!bar.IsDisposed)
             {
@@ -48,25 +74,44 @@ namespace DevScreen
             }
         }
 
-        public void Go()
+        /// <summary>
+        /// Handles the ProgressBarComplete Event
+        /// </summary>
+        /// <param name="bar">the completed bar</param>
+        private void On_ProgressBarComplete(ProgressBar bar)
         {
+            //reset to zero
+            bar.Invoke(new MethodInvoker(() => bar.Value = 0));
+            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
+        }
+
+        /// <summary>
+        /// Kicks off the main loop. adds the first line of tects and starts updating the progress bar randomly with random sleeps
+        /// </summary>
+        public void RunUpdateLoop()
+        {
+            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
             while (run)
             {
-                UpdateProgressbar(bottomProgressBar, 10);
-                UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
+                UpdateProgressbar(bottomProgressBar, random.Next(1,20));
 
                 if (!this.IsDisposed)
                 {
                     this.Invoke(new MethodInvoker(delegate { this.Update(); }));
-                    Thread.Sleep(500);
+                    Thread.Sleep(random.Next(100,800));
                 }
             }
         }
 
+        /// <summary>
+        /// Sets run to false and sleeps to make sure that everything has a chance to shut down before disposing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             run = false;
-            Thread.Sleep(500);
+            Thread.Sleep(800);
         }
     }
 }
