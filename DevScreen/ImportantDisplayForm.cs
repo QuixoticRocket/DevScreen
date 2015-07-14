@@ -16,6 +16,7 @@ namespace DevScreen
         private bool run;
         private ITextGetter textGetter;
         private Random random;
+        private Thread mainlineThread;
 
         
         public delegate void ProgressBarCompleteDelegate(ProgressBar bar);
@@ -36,8 +37,8 @@ namespace DevScreen
             this.textGetter = textGetter;
             run = true;
 
-            Thread newthread = new Thread(new ThreadStart(RunUpdateLoop));
-            newthread.Start();
+            mainlineThread = new Thread(new ThreadStart(RunUpdateLoop));
+            mainlineThread.Start();
         }
 
         /// <summary>
@@ -104,14 +105,17 @@ namespace DevScreen
         }
 
         /// <summary>
-        /// Sets run to false and sleeps to make sure that everything has a chance to shut down before disposing.
+        /// Sets run to false and aborts the main thread.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             run = false;
-            Thread.Sleep(800);
+            if (mainlineThread != null && mainlineThread.IsAlive)
+            {
+                mainlineThread.Abort();
+            }
         }
     }
 }
