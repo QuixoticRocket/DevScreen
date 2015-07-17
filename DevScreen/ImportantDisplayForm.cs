@@ -22,6 +22,9 @@ namespace DevScreen
         public Color warningColor { get; set; }
         public Color errorColor { get; set; }
 
+        public int errorPercent { get; set; }
+        public int warningPercent { get; set; }
+
         
         public delegate void ProgressBarCompleteDelegate(ProgressBar bar);
 
@@ -41,6 +44,9 @@ namespace DevScreen
             normalColor = Color.PaleGreen;
             warningColor = Color.Yellow;
             errorColor = Color.Red;
+
+            errorPercent = 5;
+            warningPercent = 10;
             
             this.textGetter = textGetter;
             run = true;
@@ -99,11 +105,11 @@ namespace DevScreen
             //get random text color
             Color textColor;
             int randomRoll = random.Next(0, 101);
-            if (randomRoll >= 95) //5% error
+            if (randomRoll >= 100 - errorPercent) //error
             {
                 textColor = errorColor;
             }
-            else if(randomRoll >= 85) //10% warning
+            else if(randomRoll >= 100 - (errorPercent + warningPercent)) //warning
             {
                 textColor = warningColor;
             }
