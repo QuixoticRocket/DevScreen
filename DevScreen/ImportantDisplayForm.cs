@@ -18,6 +18,10 @@ namespace DevScreen
         private Random random;
         private Thread mainlineThread;
 
+        public Color normalColor { get; set; }
+        public Color warningColor { get; set; }
+        public Color errorColor { get; set; }
+
         
         public delegate void ProgressBarCompleteDelegate(ProgressBar bar);
 
@@ -34,6 +38,10 @@ namespace DevScreen
 
             random = new Random(DateTime.Now.Millisecond + DateTime.Now.Second);
 
+            normalColor = Color.PaleGreen;
+            warningColor = Color.Yellow;
+            errorColor = Color.Red;
+            
             this.textGetter = textGetter;
             run = true;
 
@@ -46,11 +54,15 @@ namespace DevScreen
         /// </summary>
         /// <param name="box">The textbox to invoke</param>
         /// <param name="input">The text to append</param>
-        public void UpdateTextbox(TextBox box, string input)
+        public void UpdateTextbox(RichTextBox box, string input, Color color)
         {
             if (!box.IsDisposed)
             {
+                box.Invoke(new MethodInvoker(() => box.SelectionStart = mainOutputTextbox.TextLength));
+                box.Invoke(new MethodInvoker(() => box.SelectionColor = color));
                 box.Invoke(new MethodInvoker(() => box.AppendText(input)));
+                box.Invoke(new MethodInvoker(() => box.DeselectAll()));
+                box.Invoke(new MethodInvoker(() => box.ScrollToCaret()));
             }
         }
 
@@ -83,7 +95,26 @@ namespace DevScreen
         {
             //reset to zero
             bar.Invoke(new MethodInvoker(() => bar.Value = 0));
-            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
+
+            //get random text color
+            Color textColor;
+            int randomRoll = random.Next(0, 101);
+            if (randomRoll >= 95) //5% error
+            {
+                textColor = errorColor;
+            }
+            else if(randomRoll >= 85) //10% warning
+            {
+                textColor = warningColor;
+            }
+            else //normal
+            {
+                textColor = normalColor;
+            }
+
+            //update text
+            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine, textColor);
+            
         }
 
         /// <summary>
@@ -91,11 +122,11 @@ namespace DevScreen
         /// </summary>
         public void RunUpdateLoop()
         {
-            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine);
+            UpdateTextbox(mainOutputTextbox, textGetter.GetText() + Environment.NewLine, normalColor);
             while (run)
             {
                 UpdateProgressbar(bottomProgressBar, random.Next(1,20));
-
+                
                 if (!this.IsDisposed)
                 {
                     this.Invoke(new MethodInvoker(delegate { this.Update(); }));

@@ -10,7 +10,7 @@ namespace DevScreen
         {"Testing firewall...", 
         "Dividing by zero",
         "Reticulating Splines",
-        " - - - - H a c k i n g - - - ",
+        " - - - - H a c k i n g - - - - ",
         "downloading ALL the pr0ns",
         "<inserting> highly important //looking text",
         "moar code here!!!",

@@ -29,23 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportantDisplayForm));
-            this.mainOutputTextbox = new System.Windows.Forms.TextBox();
             this.bottomProgressBar = new System.Windows.Forms.ProgressBar();
+            this.mainOutputTextbox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
-            // 
-            // mainOutputTextbox
-            // 
-            this.mainOutputTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainOutputTextbox.BackColor = System.Drawing.Color.Black;
-            this.mainOutputTextbox.ForeColor = System.Drawing.Color.LightGreen;
-            this.mainOutputTextbox.Location = new System.Drawing.Point(0, 0);
-            this.mainOutputTextbox.Margin = new System.Windows.Forms.Padding(0);
-            this.mainOutputTextbox.Multiline = true;
-            this.mainOutputTextbox.Name = "mainOutputTextbox";
-            this.mainOutputTextbox.Size = new System.Drawing.Size(370, 337);
-            this.mainOutputTextbox.TabIndex = 0;
             // 
             // bottomProgressBar
             // 
@@ -59,26 +45,39 @@
             this.bottomProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.bottomProgressBar.TabIndex = 1;
             // 
+            // mainOutputTextbox
+            // 
+            this.mainOutputTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainOutputTextbox.BackColor = System.Drawing.Color.Black;
+            this.mainOutputTextbox.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainOutputTextbox.Location = new System.Drawing.Point(0, 0);
+            this.mainOutputTextbox.Name = "mainOutputTextbox";
+            this.mainOutputTextbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.mainOutputTextbox.Size = new System.Drawing.Size(370, 337);
+            this.mainOutputTextbox.TabIndex = 2;
+            this.mainOutputTextbox.Text = "";
+            // 
             // ImportantDisplayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(370, 361);
-            this.Controls.Add(this.bottomProgressBar);
             this.Controls.Add(this.mainOutputTextbox);
+            this.Controls.Add(this.bottomProgressBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImportantDisplayForm";
             this.Text = "Ultra Important Shit";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox mainOutputTextbox;
         private System.Windows.Forms.ProgressBar bottomProgressBar;
+        private System.Windows.Forms.RichTextBox mainOutputTextbox;
     }
 }
 
