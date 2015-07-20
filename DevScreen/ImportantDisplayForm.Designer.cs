@@ -51,7 +51,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainOutputTextbox.BackColor = System.Drawing.Color.Black;
-            this.mainOutputTextbox.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainOutputTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.mainOutputTextbox.Location = new System.Drawing.Point(0, 0);
             this.mainOutputTextbox.Name = "mainOutputTextbox";
             this.mainOutputTextbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
