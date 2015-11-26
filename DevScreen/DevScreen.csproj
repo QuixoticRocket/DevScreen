@@ -54,6 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextGetters\RandomTextGetter.cs" />
+    <Compile Include="UnusedEnum.cs" />
     <EmbeddedResource Include="ImportantDisplayForm.resx">
       <DependentUpon>ImportantDisplayForm.cs</DependentUpon>
     </EmbeddedResource>
